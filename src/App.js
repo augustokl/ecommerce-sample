@@ -5,6 +5,7 @@ import Header from './components/Header';
 
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/Shop';
+import SignInSignUpPage from './pages/SignInSignUp';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
+        <Route path="/signin" component={SignInSignUpPage} />
       </Switch>
     </div>
   );
