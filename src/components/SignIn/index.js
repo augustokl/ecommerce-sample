@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { signInWithGoogle } from '../../firebase/firebaseUtils';
-import CustomButtom from '../CustomButton';
+import { useHistory } from 'react-router-dom';
+import { auth, signInWithGoogle } from '../../firebase/firebaseUtils';
+
+import CustonButton from '../CustomButton';
 import FormInput from '../FormInput';
 
 import './styles.scss';
@@ -10,12 +12,31 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = useCallback(e => {
-    e.preventDefault();
+  const history = useHistory();
 
-    setEmail('');
-    setPassword('');
-  }, []);
+  const handleSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+
+        setEmail('');
+        setPassword('');
+
+        history.push('/');
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [email, history, password]
+  );
+
+  const handleGoogleLogin = useCallback(async () => {
+    await signInWithGoogle();
+
+    history.push('/');
+  }, [history]);
 
   return (
     <div className="sign-in">
@@ -41,10 +62,14 @@ const SignIn = () => {
         />
 
         <div className="buttons">
-          <CustomButtom type="submit">Sign in</CustomButtom>
-          <CustomButtom onClick={signInWithGoogle} isGoogleSignIn>
+          <CustonButton type="submit">Sign in</CustonButton>
+          <CustonButton
+            type="button"
+            onClick={handleGoogleLogin}
+            isGoogleSignIn
+          >
             Sign in with google
-          </CustomButtom>
+          </CustonButton>
         </div>
       </form>
     </div>
