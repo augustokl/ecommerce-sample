@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import { auth, signInWithGoogle } from '../../firebase/firebaseUtils';
 
 import CustonButton from '../CustomButton';
@@ -12,8 +11,6 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const history = useHistory();
-
   const handleSubmit = useCallback(
     async e => {
       e.preventDefault();
@@ -23,20 +20,16 @@ const SignIn = () => {
 
         setEmail('');
         setPassword('');
-
-        history.push('/');
       } catch (error) {
         console.error(error);
       }
     },
-    [email, history, password]
+    [email, password]
   );
 
   const handleGoogleLogin = useCallback(async () => {
     await signInWithGoogle();
-
-    history.push('/');
-  }, [history]);
+  }, []);
 
   return (
     <div className="sign-in">

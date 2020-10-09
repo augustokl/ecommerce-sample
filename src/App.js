@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import { auth, createUserProfileDocument } from './firebase/firebaseUtils';
 
@@ -14,6 +14,7 @@ import './App.css';
 
 function App() {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.user);
 
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -46,7 +47,13 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
-        <Route path="/signin" component={SignInSignUpPage} />
+        <Route
+          exact
+          path="/signin"
+          render={() =>
+            currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
+          }
+        />
       </Switch>
     </div>
   );
