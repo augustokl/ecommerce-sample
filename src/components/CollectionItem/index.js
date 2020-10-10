@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../redux/cart/cartActions';
+import CustomButton from '../CustomButton';
 
 import './styles.scss';
 
-const CollectionItem = ({ id, name, price, imageUrl }) => {
+const CollectionItem = ({ item }) => {
+  const { id, name, price, imageUrl } = item;
+  const dispatch = useDispatch();
+
+  const onClickAddToCart = useCallback(() => {
+    dispatch(addItem(item));
+  }, [dispatch, item]);
+
   return (
     <div className="collection-item">
       <div
@@ -15,6 +25,9 @@ const CollectionItem = ({ id, name, price, imageUrl }) => {
         <div className="name">{name}</div>
         <div className="price">{price}</div>
       </div>
+      <CustomButton inverted onClick={onClickAddToCart}>
+        Add to cart
+      </CustomButton>
     </div>
   );
 };
