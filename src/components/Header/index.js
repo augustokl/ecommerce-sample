@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
+
 import { auth } from '../../firebase/firebaseUtils';
+
+import CartIcon from '../CartIcon';
+import CartDropdown from '../CartDropdown';
 
 import './styles.scss';
 
@@ -32,7 +36,9 @@ const Header = () => {
             SIGN IN
           </Link>
         )}
+        <CartIcon />
       </div>
+      <CartDropdown />
     </div>
   );
 };

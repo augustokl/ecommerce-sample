@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { auth, createUserProfileDocument } from '../../firebase/firebaseUtils';
 
 import FormInput from '../FormInput';
-import CustonButton from '../CustomButton';
+import CustomButton from '../CustomButton';
 
 import './styles.scss';
 import { useHistory } from 'react-router-dom';
@@ -84,7 +84,7 @@ const SignUp = () => {
           label="Confirm Password"
           required
         />
-        <CustonButton type="submit">Sign Up</CustonButton>
+        <CustomButton type="submit">Sign Up</CustomButton>
       </form>
     </div>
   );

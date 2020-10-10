@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCallback } from 'react';
 import { auth, signInWithGoogle } from '../../firebase/firebaseUtils';
 
-import CustonButton from '../CustomButton';
+import CustomButton from '../CustomButton';
 import FormInput from '../FormInput';
 
 import './styles.scss';
@@ -55,14 +55,14 @@ const SignIn = () => {
         />
 
         <div className="buttons">
-          <CustonButton type="submit">Sign in</CustonButton>
-          <CustonButton
+          <CustomButton type="submit">Sign in</CustomButton>
+          <CustomButton
             type="button"
             onClick={handleGoogleLogin}
             isGoogleSignIn
           >
             Sign in with google
-          </CustonButton>
+          </CustomButton>
         </div>
       </form>
     </div>
