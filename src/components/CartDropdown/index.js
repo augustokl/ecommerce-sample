@@ -1,26 +1,49 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+
+import {
+  selectCartItems,
+  selectCartHidden,
+} from '../../redux/cart/cartSelectors';
+
+import { toggleCartHidden } from '../../redux/cart/cartActions';
+
 import CartItem from '../CartItem';
 import CustomButton from '../CustomButton';
-
-import { selectCartItems } from '../../redux/cart/cartSelectors';
 
 import './styles.scss';
 
 const CartDropdown = () => {
-  const { hidden, cartItems } = useSelector(state => ({
-    hidden: state.cart.hidden,
-    cartItems: selectCartItems(state),
-  }));
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+  const { hidden, cartItems } = useSelector(
+    createStructuredSelector({
+      hidden: selectCartHidden,
+      cartItems: selectCartItems,
+    })
+  );
+
+  const onClickCheckout = useCallback(() => {
+    dispatch(toggleCartHidden());
+
+    history.push('/checkout');
+  }, [dispatch, history]);
 
   return (
     <div className={`${hidden ? 'hidden ' : ''}cart-dropdown`}>
       <div className="cart-items">
-        {cartItems.map(cartItem => (
-          <CartItem key={cartItem.id} item={cartItem} />
-        ))}
+        {cartItems.length ? (
+          cartItems.map(cartItem => (
+            <CartItem key={cartItem.id} item={cartItem} />
+          ))
+        ) : (
+          <span className="empty-message">Your cart is empty</span>
+        )}
       </div>
-      <CustomButton>GO TO CHECKOUT</CustomButton>
+      <CustomButton onClick={onClickCheckout}>GO TO CHECKOUT</CustomButton>
     </div>
   );
 };

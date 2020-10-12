@@ -6,13 +6,15 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import { auth } from '../../firebase/firebaseUtils';
 
+import { selectCurrentUser } from '../../redux/user/userSelectors';
+
 import CartIcon from '../CartIcon';
 import CartDropdown from '../CartDropdown';
 
 import './styles.scss';
 
 const Header = () => {
-  const { currentUser } = useSelector(state => state.user);
+  const currentUser = useSelector(selectCurrentUser);
 
   return (
     <div className="header">

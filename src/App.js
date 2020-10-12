@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Header from './components/Header';
 import { auth, createUserProfileDocument } from './firebase/firebaseUtils';
 
 import { setCurrentUser } from './redux/user/userActions';
+import { selectCurrentUser } from './redux/user/userSelectors';
 
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/Shop';
 import SignInSignUpPage from './pages/SignInSignUp';
+import CheckoutPage from './pages/Checkout';
+
+import Header from './components/Header';
 
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.user);
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -47,6 +50,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
+        <Route exact path="/checkout" component={CheckoutPage} />
         <Route
           exact
           path="/signin"
