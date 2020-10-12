@@ -16,8 +16,22 @@
     position: absolute;
     font-size: 10px;
     font-weight: bold;
-    bottom: 12px;
-    top: 43%;
-    right: 42%;
+    top: 9px;
+    right: -2px;
+    background-color: #c20114;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover .item-count {
+    transform: scale(1.3);
+    background-color: #fd2339;
   }
 }
