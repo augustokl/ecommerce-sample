@@ -6,7 +6,7 @@ import CustomButton from '../CustomButton';
 import './styles.scss';
 
 const CollectionItem = ({ item }) => {
-  const { id, name, price, imageUrl } = item;
+  const { name, price, imageUrl } = item;
   const dispatch = useDispatch();
 
   const onClickAddToCart = useCallback(() => {
