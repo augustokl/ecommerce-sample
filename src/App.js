@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import {
-  auth,
-  createUserProfileDocument,
-  addCollectionAndItems,
-} from './firebase/firebaseUtils';
+import { auth, createUserProfileDocument } from './firebase/firebaseUtils';
 
 import { setCurrentUser } from './redux/user/userActions';
 import { selectCurrentUser } from './redux/user/userSelectors';
@@ -43,10 +39,6 @@ function App() {
       }
 
       dispatch(setCurrentUser(userAuth));
-      // addCollectionAndItems(
-      //   'collections',
-      //   collections.map(({ title, items }) => ({ title, items }))
-      // );
     });
 
     return () => {

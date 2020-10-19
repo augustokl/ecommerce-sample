@@ -9,8 +9,15 @@ import {
 } from '../../firebase/firebaseUtils';
 import { useDispatch } from 'react-redux';
 import { updateCollections } from '../../redux/shop/shopActions';
+import { useState } from 'react';
+import WithSpinner from '../../components/WithSpinner';
+
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionWithSpinner = WithSpinner(Collection);
 
 const Shop = ({ match }) => {
+  const [loading, setLoading] = useState(true);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,13 +27,25 @@ const Shop = ({ match }) => {
       const collectionsMap = await convertCollectionsSnapshotToMap(snapshot);
 
       dispatch(updateCollections(collectionsMap));
+      setLoading(false);
     });
   }, [dispatch]);
 
   return (
     <div className="shop-page">
-      <Route exact path={`${match.path}`} component={CollectionsOverview} />
-      <Route path={`${match.path}/:collectionId`} component={Collection} />
+      <Route
+        exact
+        path={`${match.path}`}
+        render={props => (
+          <CollectionsOverviewWithSpinner isLoading={loading} {...props} />
+        )}
+      />
+      <Route
+        path={`${match.path}/:collectionId`}
+        render={props => (
+          <CollectionWithSpinner isLoading={loading} {...props} />
+        )}
+      />
     </div>
   );
 };
