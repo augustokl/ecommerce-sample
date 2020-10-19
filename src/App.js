@@ -43,10 +43,10 @@ function App() {
       }
 
       dispatch(setCurrentUser(userAuth));
-      addCollectionAndItems(
-        'collections',
-        collections.map(({ title, items }) => ({ title, items }))
-      );
+      // addCollectionAndItems(
+      //   'collections',
+      //   collections.map(({ title, items }) => ({ title, items }))
+      // );
     });
 
     return () => {
