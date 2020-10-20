@@ -3,32 +3,20 @@ import { Route } from 'react-router-dom';
 import CollectionsOverview from '../../components/CollectionsOverview';
 import Collection from '../Collection';
 
-import {
-  convertCollectionsSnapshotToMap,
-  firestore,
-} from '../../firebase/firebaseUtils';
-import { useDispatch } from 'react-redux';
-import { updateCollections } from '../../redux/shop/shopActions';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCollectionsStartAsync } from '../../redux/shop/shopActions';
 import WithSpinner from '../../components/WithSpinner';
+import { selectCollectionFetching } from '../../redux/shop/shopSelectors';
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionWithSpinner = WithSpinner(Collection);
 
 const Shop = ({ match }) => {
-  const [loading, setLoading] = useState(true);
-
   const dispatch = useDispatch();
+  const loading = useSelector(selectCollectionFetching);
 
   useEffect(() => {
-    const collectionRef = firestore.collection('collections');
-
-    const unsubscribeFrimSnapshot = collectionRef.onSnapshot(async snapshot => {
-      const collectionsMap = await convertCollectionsSnapshotToMap(snapshot);
-
-      dispatch(updateCollections(collectionsMap));
-      setLoading(false);
-    });
+    dispatch(fetchCollectionsStartAsync());
   }, [dispatch]);
 
   return (
