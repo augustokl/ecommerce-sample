@@ -6,14 +6,19 @@ import Collection from '../Collection';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCollectionsStartAsync } from '../../redux/shop/shopActions';
 import WithSpinner from '../../components/WithSpinner';
-import { selectCollectionFetching } from '../../redux/shop/shopSelectors';
+import {
+  selectCollectionFetching,
+  selectIsCollectionsLoaded,
+} from '../../redux/shop/shopSelectors';
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionWithSpinner = WithSpinner(Collection);
 
 const Shop = ({ match }) => {
   const dispatch = useDispatch();
+
   const loading = useSelector(selectCollectionFetching);
+  const isCollectionLoaded = useSelector(selectIsCollectionsLoaded);
 
   useEffect(() => {
     dispatch(fetchCollectionsStartAsync());
@@ -31,7 +36,7 @@ const Shop = ({ match }) => {
       <Route
         path={`${match.path}/:collectionId`}
         render={props => (
-          <CollectionWithSpinner isLoading={loading} {...props} />
+          <CollectionWithSpinner isLoading={!isCollectionLoaded} {...props} />
         )}
       />
     </div>
