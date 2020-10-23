@@ -4,13 +4,13 @@ import CollectionsOverviewContainer from '../../components/CollectionsOverview/c
 import Collection from '../Collection/container';
 
 import { useDispatch } from 'react-redux';
-import { fetchCollectionsStartAsync } from '../../redux/shop/shopActions';
+import { fetchCollectionsStart } from '../../redux/shop/shopActions';
 
 const Shop = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCollectionsStartAsync());
+    dispatch(fetchCollectionsStart());
   }, [dispatch]);
 
   return (
