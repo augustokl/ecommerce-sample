@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useCallback } from 'react';
-import { auth, signInWithGoogle } from '../../firebase/firebaseUtils';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from '../../redux/user/userActions';
+import { selectCurrentUser } from '../../redux/user/userSelectors';
 
 import CustomButton from '../CustomButton';
 import FormInput from '../FormInput';
@@ -11,25 +18,28 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+  const user = useSelector(selectCurrentUser);
+
   const handleSubmit = useCallback(
     async e => {
       e.preventDefault();
 
-      try {
-        await auth.signInWithEmailAndPassword(email, password);
-
-        setEmail('');
-        setPassword('');
-      } catch (error) {
-        console.error(error);
-      }
+      dispatch(emailSignInStart({ email, password }));
     },
-    [email, password]
+    [dispatch, email, password]
   );
 
-  const handleGoogleLogin = useCallback(async () => {
-    await signInWithGoogle();
-  }, []);
+  useEffect(() => {
+    if (user) {
+      setEmail('');
+      setPassword('');
+    }
+  }, [user]);
+
+  const handleGoogleLogin = useCallback(() => {
+    dispatch(googleSignInStart());
+  }, [dispatch]);
 
   return (
     <div className="sign-in">

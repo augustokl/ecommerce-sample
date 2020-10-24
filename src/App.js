@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { auth, createUserProfileDocument } from './firebase/firebaseUtils';
 
-import { setCurrentUser } from './redux/user/userActions';
 import { selectCurrentUser } from './redux/user/userSelectors';
-import { selectCollectionsForPreview } from './redux/shop/shopSelectors';
 
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/Shop';
@@ -17,34 +14,7 @@ import Header from './components/Header';
 import './App.css';
 
 function App() {
-  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
-  const collections = useSelector(selectCollectionsForPreview);
-
-  useEffect(() => {
-    const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        (await userRef).onSnapshot(snapShot => {
-          dispatch(
-            setCurrentUser({
-              id: snapShot.id,
-              ...snapShot.data(),
-            })
-          );
-        });
-
-        return;
-      }
-
-      dispatch(setCurrentUser(userAuth));
-    });
-
-    return () => {
-      unsubscribeFromAuth();
-    };
-  }, [collections, dispatch]);
 
   return (
     <div>
